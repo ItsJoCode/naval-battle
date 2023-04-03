@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_03_085750) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_03_090425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cells", force: :cascade do |t|
+    t.string "x"
+    t.integer "y"
+    t.boolean "occuped", default: false
+    t.integer "statut", default: 0
+    t.bigint "user_id", null: false
+    t.bigint "ship_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ship_id"], name: "index_cells_on_ship_id"
+    t.index ["user_id"], name: "index_cells_on_user_id"
+  end
+
+  create_table "ships", force: :cascade do |t|
+    t.string "name"
+    t.integer "size"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_ships_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_03_085750) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "cells", "ships"
+  add_foreign_key "cells", "users"
+  add_foreign_key "ships", "users"
 end
