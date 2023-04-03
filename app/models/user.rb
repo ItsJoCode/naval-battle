@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  VALID_PASSWORD_REGEX = /\A(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}\z/
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
